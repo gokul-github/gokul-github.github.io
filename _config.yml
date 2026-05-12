@@ -1,11 +1,11 @@
-name: Gokulnath A 
+name: Gokulnath Avanashilingam
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
 paginate: 10
 paginate_path: "/blog/page:num/"
 layout: default
 comments: true
-gems:
+plugins:
   - jekyll-sitemap
 
 
