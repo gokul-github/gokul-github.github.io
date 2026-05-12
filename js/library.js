@@ -13,6 +13,7 @@ $(document).ready(function(){
  
 function init_document_ready() {
 
+  init_theme_toggle();
   create_colorSwatch();
   init_profile_reveals();
 
@@ -48,10 +49,55 @@ function create_colorSwatch() {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
+function init_theme_toggle() {
+
+  var toggle = document.querySelector(".theme-toggle");
+
+  if (!toggle) {
+    return;
+  }
+
+  var storageKey = "gokul-profile-theme";
+  var savedTheme = null;
+
+  try {
+    savedTheme = window.localStorage.getItem(storageKey);
+  } catch (error) {
+    savedTheme = null;
+  }
+
+  var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  var activeTheme = savedTheme || (prefersDark ? "dark" : "light");
+
+  function applyTheme(theme) {
+    var isDark = theme === "dark";
+    document.documentElement.setAttribute("data-theme", theme);
+    toggle.setAttribute("aria-pressed", isDark ? "true" : "false");
+    toggle.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+    toggle.querySelector(".theme-toggle-text").textContent = isDark ? "Light" : "Dark";
+  }
+
+  applyTheme(activeTheme);
+
+  toggle.addEventListener("click", function() {
+    activeTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(activeTheme);
+
+    try {
+      window.localStorage.setItem(storageKey, activeTheme);
+    } catch (error) {
+      return;
+    }
+  });
+
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+
 function init_profile_reveals() {
 
   var revealTargets = document.querySelectorAll(
-    ".hero-copy, .hero-panel, .signal-strip, .section-band, .delivery-map, .expertise-grid, .skills-section, .compact-band, .contact-cta, .contact-card"
+    ".hero-copy, .hero-panel, .signal-strip, .tech-stack-strip, .section-band, .delivery-map, .expertise-grid, .skills-section, .compact-band, .contact-cta, .contact-card"
   );
 
   if (!revealTargets.length) {

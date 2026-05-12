@@ -4,8 +4,20 @@
 	<meta name="description" content="{{ page.description }}">
 	<meta name="author" content="Gokulnath Avanashilingam">
 	<title>{{ page.title }} | Gokulnath Avanashilingam</title>
+	<script>
+		(function() {
+			try {
+				var key = "gokul-profile-theme";
+				var saved = window.localStorage.getItem(key);
+				var systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+				document.documentElement.setAttribute("data-theme", saved || (systemDark ? "dark" : "light"));
+			} catch (error) {
+				document.documentElement.setAttribute("data-theme", "light");
+			}
+		})();
+	</script>
 	<link href="/css/bootstrap.css" rel="stylesheet">
-	<link href="/css/style.css?v=20260512" rel="stylesheet">
+	<link href="/css/style.css?v=20260512b" rel="stylesheet">
 	<!--[if lt IE 9]>
   <script src="../../assets/js/html5shiv.js"></script>
   <script src="../../assets/js/respond.min.js"></script>
