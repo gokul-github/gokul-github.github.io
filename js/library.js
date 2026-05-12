@@ -14,6 +14,7 @@ $(document).ready(function(){
 function init_document_ready() {
 
   create_colorSwatch();
+  init_profile_reveals();
 
 }
 
@@ -41,6 +42,45 @@ function create_colorSwatch() {
       $( this ).css( "color" , "#f0f0f0" );
     }
     
+  });
+
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function init_profile_reveals() {
+
+  var revealTargets = document.querySelectorAll(
+    ".hero-copy, .hero-panel, .signal-strip, .section-band, .delivery-map, .expertise-grid, .skills-section, .compact-band, .contact-cta, .contact-card"
+  );
+
+  if (!revealTargets.length) {
+    return;
+  }
+
+  document.body.classList.add("reveal-ready");
+
+  if (!("IntersectionObserver" in window)) {
+    revealTargets.forEach(function(target) {
+      target.classList.add("is-visible");
+    });
+    return;
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    rootMargin: "0px 0px -10% 0px",
+    threshold: 0.15
+  });
+
+  revealTargets.forEach(function(target) {
+    observer.observe(target);
   });
 
 }
